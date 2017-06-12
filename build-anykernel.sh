@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-#  Build Script for Render Kernel for OnePlus 3!
+#  Build Script for Own Kernel for OnePlus 3!
 #  Based off AK'sbuild script - Thanks!
 #
 
@@ -17,32 +17,31 @@ clear
 # Resources
 THREAD="-j$(grep -c ^processor /proc/cpuinfo)"
 KERNEL="Image.gz-dtb"
-DEFCONFIG="lineageos_oneplus3_defconfig"
+DEFCONFIG="ownkernel_oneplus3_defconfig"
 
 # Kernel Details
-VER=Render-Kernel
-VARIANT="OP3-LOS-N-EAS"
+VER=OwnKernel - OnePlus3
+VARIANT="OwnPlus3"
 
 # Vars
 export LOCALVERSION=~`echo $VER`
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER=RenderBroken
-export KBUILD_BUILD_HOST=RenderServer.net
+export KBUILD_BUILD_USER=OwnKernel
 export CCACHE=ccache
 
 # Paths
 KERNEL_DIR=`pwd`
-REPACK_DIR="${HOME}/android/source/kernel/AnyKernel2"
-PATCH_DIR="${HOME}/android/source/kernel/AnyKernel2/patch"
-MODULES_DIR="${HOME}/android/source/kernel/AnyKernel2/modules"
-ZIP_MOVE="${HOME}/android/source/zips/OP3-zips"
-ZIMAGE_DIR="${HOME}/android/source/kernel/OP3-LOS-kernel/arch/arm64/boot"
+REPACK_DIR="/home/owndroid/Bureaublad/AnyKernel2"
+PATCH_DIR="/home/owndroid/Bureaublad/AnyKernel2/patch"
+MODULES_DIR="/home/owndroid/Bureaublad/AnyKernel2/modules"
+ZIP_MOVE="/home/owndroid/Bureaublad/kernel/zip"
+ZIMAGE_DIR="/home/owndroid/TeraByte/OwnROM/OwnKernel/oneplus3/msm8996/arch/arm64/boot"
 
 # Functions
 function checkout_ak_branches {
 		cd $REPACK_DIR
-		git checkout rk-op3-los-n
+		git checkout own-n
 		cd $KERNEL_DIR
 }
 
@@ -75,8 +74,8 @@ function make_dtb {
 
 function make_zip {
 		cd $REPACK_DIR
-		zip -r9 RenderKernel-"$VARIANT"-R.zip *
-		mv RenderKernel-"$VARIANT"-R.zip $ZIP_MOVE
+		zip -r9 OwnKernel-"$VARIANT".zip *
+		mv OwnKernel-"$VARIANT".zip $ZIP_MOVE
 		cd $KERNEL_DIR
 }
 
@@ -84,24 +83,15 @@ function make_zip {
 DATE_START=$(date +"%s")
 
 echo -e "${green}"
-echo "Render Kernel Creation Script:"
+echo "OwnKernel Creation Script:"
 echo -e "${restore}"
 
 echo "Pick Toolchain..."
-select choice in LINARO-aarch64-linux-gnu-4.9.3-05012016 LINARO-aarch64-linux-gnu-5.3.1-05012016 HYPER-aarch64-6.x-10032016 LINARO-aarch64-linux-gnu-6.3.1-052017
+select choice in stock
 do
 case "$choice" in
-	"LINARO-aarch64-linux-gnu-4.9.3-05012016")
-		export CROSS_COMPILE=${HOME}/android/source/toolchains/LINARO-aarch64-linux-gnu-4.9.3-05012016/bin/aarch64-linux-gnu-
-		break;;
-	"LINARO-aarch64-linux-gnu-5.3.1-05012016")
-		export CROSS_COMPILE=${HOME}/android/source/toolchains/LINARO-aarch64-linux-gnu-5.3.1-05012016/bin/aarch64-linux-gnu-
-		break;;
-	"HYPER-aarch64-6.x-10032016")
-		export CROSS_COMPILE=${HOME}/android/source/toolchains/HYPER-aarch64-6.x-10032016/bin/aarch64-linux-android-
-		break;;
-	"LINARO-aarch64-linux-gnu-6.3.1-052017")
-		export CROSS_COMPILE=${HOME}/android/source/toolchains/LINARO-aarch64-linux-gnu-6.3.1-052017/bin/aarch64-linux-gnu-
+	"stock")
+		export CROSS_COMPILE=/home/owndroid/TeraByte/OwnROM/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 		break;;
 esac
 done
