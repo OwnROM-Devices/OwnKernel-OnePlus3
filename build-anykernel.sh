@@ -21,7 +21,7 @@ DEFCONFIG="ownkernel_oneplus3_defconfig"
 
 # Kernel Details
 VER=OwnKernel - OnePlus3
-VARIANT="OwnPlus3"
+VARIANT="OwnPlus3_R2"
 
 # Vars
 export LOCALVERSION=~`echo $VER`
